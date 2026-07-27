@@ -1,121 +1,111 @@
+@php
+    use Illuminate\Support\Facades\Storage;
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
 
-<div class="menu-page">
+    <div class="menu-page">
 
-    <!-- HEADER -->
-    <div class="menu-header">
+        <!-- HEADER -->
+        <div class="menu-header">
 
-        <p class="menu-label">DAFTAR MENU</p>
+            <p class="menu-label">DAFTAR MENU</p>
 
-        <h1>Menu Kami</h1>
+            <h1>Menu Kami</h1>
 
-        <p>
-            Pilih dari berbagai menu nusantara
-            yang lezat dan terjangkau
-        </p>
+            <p>
+                Pilih dari berbagai menu nusantara
+                yang lezat dan terjangkau
+            </p>
 
-    </div>
+        </div>
 
-    <!-- SEARCH -->
-    <div class="menu-top">
+        <!-- SEARCH -->
+        <div class="menu-top">
 
-        <form method="GET" action="/menu">
+            <form method="GET" action="/menu">
 
-            <input
-                type="text"
-                name="search"
-                value="{{ request('search') }}"
-                placeholder="Cari menu...">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari menu...">
 
-        </form>
+            </form>
 
-    <div class="category-buttons">
+            <div class="category-buttons">
 
-        <a
-            href="/menu"
-            class="category-btn">
+                <a href="/menu" class="category-btn">
 
-            Semua
+                    Semua
 
-        </a>
+                </a>
 
-        <a
-            href="/menu?kategori=Makanan"
-            class="category-btn">
+                <a href="/menu?kategori=Makanan" class="category-btn">
 
-            Makanan
+                    Makanan
 
-        </a>
+                </a>
 
-        <a
-            href="/menu?kategori=Minuman"
-            class="category-btn">
+                <a href="/menu?kategori=Minuman" class="category-btn">
 
-            Minuman
+                    Minuman
 
-        </a>
+                </a>
 
-        <a
-            href="/menu?kategori=Cemilan"
-            class="category-btn">
+                <a href="/menu?kategori=Cemilan" class="category-btn">
 
-            Cemilan
+                    Cemilan
 
-        </a>
-
-    </div>
-
-    </div>
-
-    <!-- CARD -->
-    <div class="menu-grid">
-
-        @foreach($menus as $menu)
-
-        <div class="menu-card">
-
-            <img
-                src="{{ asset('uploads/' . $menu->gambar) }}"
-                alt="{{ $menu->nama }}">
-
-            <div class="menu-info">
-
-                <div class="rating">
-                    ⭐ {{ $menu->rating }}
-                </div>
-
-                <h3>{{ $menu->nama }}</h3>
-
-                <p>{{ $menu->terjual }} terjual</p>
-
-                <div class="menu-bottom">
-
-                    <h2>
-                        Rp {{ number_format($menu->harga,0,',','.') }}
-                    </h2>
-
-                    <form action="/cart/add/{{ $menu->id }}" method="POST">
-
-                        @csrf
-
-                        <button type="submit">
-                            + Pesan
-                        </button>
-
-                    </form>
-
-                </div>
+                </a>
 
             </div>
 
         </div>
 
-        @endforeach
+        <!-- CARD -->
+        <div class="menu-grid">
+
+            @foreach($menus as $menu)
+
+                <div class="menu-card">
+
+                    <img src="{{ Storage::disk('s3')->url($menu->gambar) }}" alt="{{ $menu->nama }}">
+
+                    <div class="menu-info">
+
+                        <div class="rating">
+                            ⭐ {{ $menu->rating }}
+                        </div>
+
+                        <h3>{{ $menu->nama }}</h3>
+
+                        <p>{{ $menu->terjual }} terjual</p>
+
+                        <div class="menu-bottom">
+
+                            <h2>
+                                Rp {{ number_format($menu->harga, 0, ',', '.') }}
+                            </h2>
+
+                            <form action="/cart/add/{{ $menu->id }}" method="POST">
+
+                                @csrf
+
+                                <button type="submit">
+                                    + Pesan
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @endforeach
+
+        </div>
 
     </div>
-
-</div>
 
 @endsection

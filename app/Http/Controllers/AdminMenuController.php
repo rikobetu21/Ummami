@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Menu;
+use Illuminate\Support\Facades\Storage;
 
 class AdminMenuController extends Controller
 {
@@ -33,12 +34,13 @@ class AdminMenuController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $gambar = time() . '.' .
-                $request->file('gambar')->extension();
 
-            $request->file('gambar')->move(
-                public_path('uploads'),
-                $gambar
+            $gambar = 'menu/' . time() . '_' .
+                $request->file('gambar')->getClientOriginalName();
+
+            Storage::disk('s3')->put(
+                $gambar,
+                file_get_contents($request->file('gambar'))
             );
         }
 
@@ -82,12 +84,17 @@ class AdminMenuController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $gambar = time() . '.' .
-                $request->file('gambar')->extension();
 
-            $request->file('gambar')->move(
-                public_path('uploads'),
-                $gambar
+            if ($menu->gambar) {
+                Storage::disk('s3')->delete($menu->gambar);
+            }
+
+            $gambar = 'menu/' . time() . '_' .
+                $request->file('gambar')->getClientOriginalName();
+
+            Storage::disk('s3')->put(
+                $gambar,
+                file_get_contents($request->file('gambar'))
             );
         }
 
@@ -106,7 +113,13 @@ class AdminMenuController extends Controller
 
     public function destroy($id)
     {
-        Menu::destroy($id);
+        $menu = Menu::findOrFail($id);
+
+        if ($menu->gambar) {
+            Storage::disk('s3')->delete($menu->gambar);
+        }
+
+        $menu->delete();
 
         return redirect('/admin/menu')
             ->with('success', 'Menu berhasil dihapus');

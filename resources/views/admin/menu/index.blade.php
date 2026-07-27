@@ -1,3 +1,7 @@
+@php
+use Illuminate\Support\Facades\Storage;
+@endphp
+
 @extends('layouts.admin')
 
 @section('content')
@@ -54,7 +58,7 @@
                     <td>
 
                         <img
-                            src="{{ asset('uploads/'.$menu->gambar) }}"
+                            src="{{ Storage::disk('s3')->url($menu->gambar) }}"
                             width="70"
                             style="
                                 border-radius:10px;
