@@ -2,41 +2,41 @@
 
 @section('content')
 
-<!-- HERO -->
-<section class="hero">
+    <!-- HERO -->
+    <section class="hero">
 
-    <div class="hero-left">
+        <div class="hero-left">
 
-        <div class="tag">
-            WARUNG MODERN CITA RASA NUSANTARA
+            <div class="tag">
+                WARUNG MODERN CITA RASA NUSANTARA
+            </div>
+
+            <h1>
+                Nasi & <br>
+                Sambal <br>
+                Sepuasnya
+            </h1>
+
+            <p>
+                Warung makan modern dengan cita rasa nusantara
+                yang otentik. Makan sepuasnya, harga bersahabat,
+                hati bahagia.
+            </p>
+
+            <div class="hero-button">
+
+                <a href="{{ url('/menu') }}" class="btn-order">
+                    Pesan Sekarang
+                </a>
+
+            </div>
+
         </div>
 
-        <h1>
-            Nasi & <br>
-            Sambal <br>
-            Sepuasnya
-        </h1>
-
-        <p>
-            Warung makan modern dengan cita rasa nusantara
-            yang otentik. Makan sepuasnya, harga bersahabat,
-            hati bahagia.
-        </p>
-
-        <div class="hero-button">
-
-            <a href="{{ url('/menu') }}" class="btn-order">
-                Pesan Sekarang
-            </a>
-
+        <div class="hero-right">
+            <img src="{{ asset('images/nasi.png') }}" alt="">
         </div>
 
-    </div>
-
-    <div class="hero-right">
-        <img src="{{ asset('images/nasi.png') }}" alt="">
-    </div>
-
-</section>
+    </section>
 
 @endsection

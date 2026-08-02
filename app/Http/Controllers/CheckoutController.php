@@ -6,11 +6,25 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Menu;
+use Illuminate\Support\Facades\Auth;
+use App\Services\DokuService;
 
 class CheckoutController extends Controller
 {
+
+    protected DokuService $doku;
+
+    public function __construct(DokuService $doku)
+    {
+        $this->doku = $doku;
+    }
     public function index()
     {
+        if (!Auth::check()) {
+            session(['url.intended' => url()->current()]);
+            return redirect()->route('login.required');
+        }
+
         return view('checkout.index');
     }
 
@@ -60,7 +74,7 @@ class CheckoutController extends Controller
 
             'kode_order' => 'ORD-' . time(),
 
-            'nama_pelanggan' => $request->nama_pelanggan,
+            'nama_pelanggan' => Auth::user()->name,
 
             'nomor_meja' => $request->nomor_meja,
 
@@ -70,10 +84,7 @@ class CheckoutController extends Controller
 
             'bukti_transfer' => $buktiTransfer,
 
-            'status' =>
-                $request->payment == 'qris'
-                ? 'menunggu_pembayaran'
-                : 'pending'
+            'status' => 'pending'
 
         ]);
 
@@ -96,20 +107,23 @@ class CheckoutController extends Controller
 
         session()->forget('cart');
 
+        if ($request->payment == 'doku') {
+
+            $result = $this->doku->createCheckout(
+                $order->total,
+                $order->kode_order
+            );
+
+            if (isset($result['response']['payment']['url'])) {
+                return redirect($result['response']['payment']['url']);
+            }
+
+            return back()->with(
+                'error',
+                json_encode($result)
+            );
+        }
+
         return redirect('/order-status?id=' . $order->id);
-    }
-
-    public function qris(Request $request)
-    {
-        return view(
-            'checkout.qris',
-            [
-                'nama_pelanggan' =>
-                    $request->nama_pelanggan,
-
-                'nomor_meja' =>
-                    $request->nomor_meja
-            ]
-        );
     }
 }

@@ -5,19 +5,14 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>UMMAMI</title>
 
     <!-- FONT AWESOME -->
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <link
-        rel="stylesheet"
-        href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
 </head>
 
@@ -40,9 +35,7 @@
 
             <li>
 
-                <a
-                    href="/"
-                    class="{{ request()->is('/') ? 'active-nav' : '' }}">
+                <a href="/" class="{{ request()->is('/') ? 'active-nav' : '' }}">
 
                     Home
 
@@ -52,9 +45,7 @@
 
             <li>
 
-                <a
-                    href="/menu"
-                    class="{{ request()->is('menu') ? 'active-nav' : '' }}">
+                <a href="/menu" class="{{ request()->is('menu') ? 'active-nav' : '' }}">
 
                     Menu
 
@@ -64,9 +55,7 @@
 
             <li>
 
-                <a
-                    href="/harga"
-                    class="{{ request()->is('harga') ? 'active-nav' : '' }}">
+                <a href="/harga" class="{{ request()->is('harga') ? 'active-nav' : '' }}">
 
                     Harga
 
@@ -76,9 +65,7 @@
 
             <li>
 
-                <a
-                    href="/about"
-                    class="{{ request()->is('about') ? 'active-nav' : '' }}">
+                <a href="/about" class="{{ request()->is('about') ? 'active-nav' : '' }}">
 
                     About Us
 
@@ -91,9 +78,30 @@
         <!-- BUTTON -->
         <div class="navbar-buttons">
 
-            <a
-                href="/admin/dashboard"
-                class="admin-btn">
+            @auth
+
+                <span class="user-name">
+                    <i class="fas fa-user-circle"></i>
+                    {{ Auth::user()->name }}
+                </span>
+
+                <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                    @csrf
+                    <button type="submit" class="logout-btn">
+                        Logout
+                    </button>
+                </form>
+
+            @else
+
+                <a href="{{ route('google.login') }}" class="google-btn-navbar">
+                    <img src="{{ asset('images/google.png') }}" alt="Google">
+                    Login
+                </a>
+
+            @endauth
+
+            <a href="/admin/dashboard" class="admin-btn">
 
                 <i class="fas fa-user-shield"></i>
                 Admin
@@ -108,4 +116,5 @@
     @yield('content')
 
 </body>
+
 </html>

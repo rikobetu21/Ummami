@@ -36,6 +36,20 @@
 
         </form>
 
+        <div class="login-divider">
+            <span>ATAU</span>
+        </div>
+
+        <a href="{{ route('admin.google') }}" class="google-login-btn">
+
+            <img
+                src="{{ asset('images/google.png') }}"
+                alt="Google">
+
+            Login menggunakan Google
+
+        </a>
+
     </div>
 
 </div>

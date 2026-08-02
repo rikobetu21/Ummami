@@ -47,8 +47,6 @@
 
     </nav>
 
-    </nav>
-
     @if(session('success'))
         <div class="alert-success-custom">
             {{ session('success') }}

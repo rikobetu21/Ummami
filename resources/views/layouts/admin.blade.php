@@ -5,104 +5,102 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>UMMAMI Admin</title>
 
     <!-- FONT AWESOME -->
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <link
-        rel="stylesheet"
-        href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
 </head>
 
 <body>
 
-<div class="admin-layout">
+    <div class="admin-layout">
 
-    <!-- SIDEBAR -->
-    <aside class="admin-sidebar">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar">
 
-        <div class="sidebar-logo">
+            <div class="sidebar-logo">
 
-            <h2>UMMAMI</h2>
+                <h2>UMMAMI</h2>
 
-        </div>
+            </div>
 
-        <nav class="sidebar-menu">
+            <nav class="sidebar-menu">
 
-            <a
-                href="/admin/dashboard"
-                class="{{ request()->is('admin/dashboard') ? 'active' : '' }}">
+                <a href="/admin/dashboard" class="{{ request()->is('admin/dashboard') ? 'active' : '' }}">
 
-                <i class="fas fa-chart-pie"></i>
-                Dashboard
+                    <i class="fas fa-chart-pie"></i>
+                    Dashboard
 
-            </a>
+                </a>
 
-            <a
-                href="/admin/orders"
-                class="{{ request()->is('admin/orders*') ? 'active' : '' }}">
+                <a href="/admin/orders" class="{{ request()->is('admin/orders*') ? 'active' : '' }}">
 
-                <i class="fas fa-receipt"></i>
-                Orders
+                    <i class="fas fa-receipt"></i>
+                    Orders
 
-            </a>
+                </a>
 
-            <a
-                href="/admin/menu"
-                class="{{ request()->is('admin/menu*') ? 'active' : '' }}">
+                <a href="/admin/menu" class="{{ request()->is('admin/menu*') ? 'active' : '' }}">
 
-                <i class="fas fa-utensils"></i>
-                Menu
+                    <i class="fas fa-utensils"></i>
+                    Menu
 
-            </a>
+                </a>
 
-            <a
-                href="/admin/reports"
-                class="{{ request()->is('admin/reports*') ? 'active' : '' }}">
+                <a href="/admin/reports" class="{{ request()->is('admin/reports*') ? 'active' : '' }}">
 
-                <i class="fas fa-chart-line"></i>
-                Laporan
+                    <i class="fas fa-chart-line"></i>
+                    Laporan
 
-            </a>
+                </a>
 
-            <a href="/admin/logout">
+            </nav>
 
-                <i class="fas fa-sign-out-alt"></i>
-                Logout
+            <div class="sidebar-footer">
 
-            </a>
+                @if(session('admin_avatar'))
+                    <img src="{{ session('admin_avatar') }}" class="admin-avatar" alt="Admin">
+                @endif
 
-        </nav>
+                <strong>
+                    {{ session('admin_nama', 'Administrator') }}
+                </strong>
 
-        <div class="sidebar-footer">
+                <span>
+                    {{ session('admin_email', 'admin@ummami.id') }}
+                </span>
 
-            <strong>
-                Admin UMMAMI
-            </strong>
+                <form action="{{ route('admin.logout') }}" method="POST">
 
-            <span>
-                admin@ummami.id
-            </span>
+                    @csrf
 
-        </div>
+                    <button type="submit" class="sidebar-logout">
 
-    </aside>
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
 
-    <!-- CONTENT -->
-    <main class="admin-content">
+                    </button>
 
-        @yield('content')
+                </form>
 
-    </main>
+            </div>
 
-</div>
+        </aside>
+
+        <!-- CONTENT -->
+        <main class="admin-content">
+
+            @yield('content')
+
+        </main>
+
+    </div>
 
 </body>
+
 </html>

@@ -2,16 +2,21 @@
 
 @section('content')
 
-<div class="dashboard-main">
+    <div class="dashboard-main">
 
-    <!-- MAIN -->
+        <!-- MAIN -->
 
         <!-- TOPBAR -->
         <div class="topbar">
 
             <div>
                 <h1>Dashboard</h1>
-                <p>Selamat datang, Admin UMMAMI</p>
+                <p>
+
+                    Selamat datang,
+                    {{ session('admin_nama', 'Administrator') }}
+
+                </p>
             </div>
 
         </div>
@@ -64,7 +69,7 @@
                 <h4>Total Pendapatan</h4>
 
                 <h2>
-                    Rp {{ number_format($totalRevenue,0,',','.') }}
+                    Rp {{ number_format($totalRevenue, 0, ',', '.') }}
                 </h2>
 
                 <p>Pesanan selesai</p>
@@ -97,7 +102,7 @@
                 </h4>
 
                 <h2>
-                    Rp {{ number_format($todayRevenue,0,',','.') }}
+                    Rp {{ number_format($todayRevenue, 0, ',', '.') }}
                 </h2>
 
                 <p>
@@ -108,7 +113,7 @@
 
         </div>
 
-        
+
 
         <!-- TABLE -->
         <div class="table-container">
@@ -145,47 +150,47 @@
 
                     @forelse($latestOrders as $order)
 
-                    <tr>
+                        <tr>
 
-                        <td>
-                            {{ $order->kode_order }}
-                        </td>
+                            <td>
+                                {{ $order->kode_order }}
+                            </td>
 
-                        <td>
-                            {{ $order->nama_pelanggan }}
-                        </td>
+                            <td>
+                                {{ $order->nama_pelanggan }}
+                            </td>
 
-                        <td>
-                            {{ $order->nomor_meja }}
-                        </td>
+                            <td>
+                                {{ $order->nomor_meja }}
+                            </td>
 
-                        <td>
-                            Rp {{ number_format($order->total,0,',','.') }}
-                        </td>
+                            <td>
+                                Rp {{ number_format($order->total, 0, ',', '.') }}
+                            </td>
 
-                        <td>
+                            <td>
 
-                            <span class="status">
+                                <span class="status">
 
-                                {{ strtoupper($order->status) }}
+                                    {{ strtoupper($order->status) }}
 
-                            </span>
+                                </span>
 
-                        </td>
+                            </td>
 
-                    </tr>
+                        </tr>
 
                     @empty
 
-                    <tr>
+                        <tr>
 
-                        <td colspan="5">
+                            <td colspan="5">
 
-                            Belum ada pesanan
+                                Belum ada pesanan
 
-                        </td>
+                            </td>
 
-                    </tr>
+                        </tr>
 
                     @endforelse
 
@@ -195,6 +200,6 @@
 
         </div>
 
-</div>
+    </div>
 
 @endsection
